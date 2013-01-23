@@ -1,20 +1,40 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    addressable (2.2.8)
+    af (0.3.18.4)
+      addressable (~> 2.2.6)
+      interact (~> 0.4.0)
+      json_pure (>= 1.5.1, < 1.7.0)
+      rb-readline (~> 0.4.2)
+      rest-client (>= 1.6.1, < 1.7.0)
+      rubyzip (~> 0.9.4)
+      terminal-table (~> 1.4.2)
+      uuidtools (~> 2.1.0)
+    interact (0.4.8)
+    json_pure (1.6.7)
+    mime-types (1.19)
     rack (1.4.3)
     rack-protection (1.2.0)
       rack
+    rb-readline (0.4.2)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
+    rubyzip (0.9.9)
     shotgun (0.9)
       rack (>= 1.0)
     sinatra (1.3.2)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
       tilt (~> 1.3, >= 1.3.3)
+    terminal-table (1.4.5)
     tilt (1.3.3)
+    uuidtools (2.1.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  af
   shotgun
   sinatra
