@@ -102,6 +102,7 @@
                 return;
             }
 
+
             var closest = places[0];
             var closestLatLong = new google.maps.LatLng(closest.geometry.location.Ya, closest.geometry.location.Za);
 
@@ -216,6 +217,19 @@
         return App;
     })();
 
+    this.Place = (function() {
+
+        Place.prototype.defaults = {
+
+        };
+
+        function Place(options) {
+
+        }
+
+        return Place;
+    })();
+
     this.Route = (function() {
 
         Route.prototype.defaults = {
@@ -277,14 +291,9 @@
                 formattedDirections = "",
                 _this = this;
 
-            // TODO: clean up with inject (below)
-            directions.steps.forEach(function(step) {
-                formattedDirections += _this.formatStep(step);
-            });
-
-            // formattedDirections = _.inject(directions.steps, function(step) {
-            //     return _this.formatStep;
-            // }, "");
+            formattedDirections = _.inject(directions.steps, function(memo, step) {
+                memo += _this.formatStep();
+            }, "");
 
             return formattedDirections;
         };
