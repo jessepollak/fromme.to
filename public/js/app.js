@@ -2,7 +2,7 @@
     this.App = (function() {
 
         App.prototype.defaults = {
-            routesContainerSelector: '.routes-container ul.routes',
+            placesContainerSelector: '.places-container ul.places',
             inputContainerSelector: 'div.input-container',
             inputSelector: 'div.input-container input#input',
             submitSelector: 'div.input-container div#submit',
@@ -17,7 +17,7 @@
 
             this.options = _.defaults(options, this.defaults);
             this.destination = options.destination;
-            this.routesContainer = $(this.options.routesContainerSelector);
+            this.placesContainer = $(this.options.placesContainerSelector);
 
             this.inputContainer = $(this.options.inputContainerSelector);
             this.input = $(this.options.inputSelector);
@@ -26,19 +26,19 @@
             this.inputShown = false;
 
             this.routes = [];
+            this.places = [];
+
             this.directionsService = new google.maps.DirectionsService();
             this.directionsDisplay = new google.maps.DirectionsRenderer();
             this.geocoder = new google.maps.Geocoder();
-
             this.getLocation = _.bind(this.getLocation, this);
             this.handlePosition = _.bind(this.handlePosition, this);
             this.handleError = _.bind(this.handleError, this);
-            this.handleDirections = _.bind(this.handleDirections, this);
             this.findPlaces = _.bind(this.findPlaces, this);
             this.handlePlaces = _.bind(this.handlePlaces, this);
             this.attachHandlers = _.bind(this.attachHandlers, this);
-            this.attachRouteHandlers = _.bind(this.attachRouteHandlers, this);
-            this.changeRoute = _.bind(this.changeRoute, this);
+            this.attachPlaceHandlers = _.bind(this.attachPlaceHandlers, this);
+            this.changePlace = _.bind(this.changePlace, this);
             this.handleTyping = _.bind(this.handleTyping, this);
             this.hideInput = _.bind(this.hideInput, this);
             this.showInput = _.bind(this.showInput, this);
@@ -97,72 +97,37 @@
         };
 
         App.prototype.handlePlaces = function(places, status) {
+            var _this = this;
+
             if (status !== google.maps.places.PlacesServiceStatus.OK) {
                 this.handleError(status);
                 return;
             }
 
-
-            var closest = places[0];
-            var closestLatLong = new google.maps.LatLng(closest.geometry.location.Ya, closest.geometry.location.Za);
-
-            // var marker = new google.maps.Marker({
-            //     position: closestLatLong,
-            //     map: this.map,
-            //     title: closest.name
-            // });
-
-            var directions = {
-                origin: this.location,
-                destination: closestLatLong,
-                travelMode: google.maps.TravelMode.DRIVING,
-                unitSystem: google.maps.UnitSystem.IMPERIAL
-            };
-
-            this.directionsService.route(directions, this.handleDirections);
-        };
-
-        App.prototype.handleDirections = function(directions, status) {
-            var _this = this;
-            if (status !== google.maps.DirectionsStatus.OK) {
-                this.handleError(status);
-                return;
-            }
-
-            this.directionsDisplay.setDirections(directions);
-
-            directions.routes.forEach(function(route, i) {
-                var r = new Route(route, i);
-                _this.routes.push(r);
-                r.render(_this.routesContainer);
-                _this.attachRouteHandlers(r);
+            _.each(places.slice(0, 5), function(p, i) {
+                var place = new Place(p, i, _this);
+                _this.places.push(place);
+                place.render(_this.placesContainer);
+                _this.attachPlaceHandlers(place);
             });
 
-
-
-            this.currentRoute = this.routes[0];
-            this.currentRoute.showDirections();
-
-
-            // directions.routes[0].legs[0].steps.forEach(function(step, i, test) {
-            //     var formattedStep = _this.formatStep(step);
-            //     _this.directionsContainer.find('ul.directions').append(formattedStep);
-            // });
+            this.currentPlace = this.places[0];
+            this.currentPlace.expand();
         };
 
-        App.prototype.attachRouteHandlers = function(route) {
-            route.html.on('route.summary-click', this.changeRoute);
+        App.prototype.attachPlaceHandlers = function(place) {
+            place.$html.on('place.summary-click', this.changePlace);
         };
 
-        App.prototype.changeRoute = function(e, route) {
+        App.prototype.changePlace = function(e, place) {
             if (this.inputShown && e !== undefined) this.hideInput();
-            if (this.currentRoute) this.currentRoute.showSummary();
+            if (this.currentPlace) this.currentPlace.collapse();
 
-            if (this.currentRoute !== route) {
-                route.showDirections();
-                this.currentRoute = route;
+            if (this.currentPlace !== place) {
+                place.expand();
+                this.currentPlace = place;
             } else {
-                this.currentRoute = undefined;
+                this.currentPlace = undefined;
             }
         };
 
@@ -179,7 +144,7 @@
                 this.hideInput();
 
                 // show the first route
-                this.changeRoute(undefined, this.routes[0]);
+                this.changePlace(undefined, this.places[0]);
                 return;
             }
 
@@ -188,7 +153,7 @@
                 this.showInput();
 
                 // hide the current shown route
-                this.changeRoute(undefined, this.currentRoute);
+                this.changePlace(undefined, this.currentPlace);
                 return;
             }
         };
@@ -220,12 +185,99 @@
     this.Place = (function() {
 
         Place.prototype.defaults = {
-
+            baseHTML: "<li class='place'><div class='summary-container' style='display:none;'><h6 class='summary'></h6></div><div class='route-container'></div></li>",
+            summaryContainerSelector: 'div.summary-container',
+            summarySelector: 'h6.summary',
+            routeContainerSelector: 'div.route-container'
         };
 
-        function Place(options) {
+        function Place(placeInformation, index, app) {
 
+            this.placeInformation = placeInformation;
+            this.options = _.defaults(_.clone(placeInformation), this.defaults);
+            this.index = index + 1;
+            this.app = app;
+            this.expanded = false;
+
+            this.$html = $(this.options.baseHTML);
+            this.summaryContainer = this.$html.find(this.options.summaryContainerSelector);
+            this.summary = this.summaryContainer.find(this.options.summarySelector);
+            this.routeContainer = this.$html.find(this.options.routeContainerSelector);
+
+            this.render = _.bind(this.render, this);
+            this.collapse = _.bind(this.collapse, this);
+            this.expand = _.bind(this.expand, this);
+            this.attachHandlers = _.bind(this.attachHandlers, this);
+            this.summaryClick = _.bind(this.summaryClick, this);
+            this.generateRoute = _.bind(this.generateRoute, this);
+            this.handleDirections = _.bind(this.handleDirections, this);
         }
+
+        Place.prototype.render = function(container) {
+            this.summary.append("<span class='place-number'>" + this.index + "</span>" + this.options.name);
+
+            container.append(this.$html);
+
+            this.attachHandlers(container);
+
+            this.summaryContainer.show();
+        };
+
+        Place.prototype.collapse = function() {
+            this.route.collapse();
+        };
+
+        Place.prototype.expand = function() {
+            if (!this.route) {
+                this.generateRoute();
+            } else {
+                this.app.directionsDisplay.setDirections(this.directions);
+                this.route.expand();
+            }
+        };
+
+        Place.prototype.generateRoute = function() {
+            var placeLatLong = new google.maps.LatLng(this.options.geometry.location.Ya, this.options.geometry.location.Za);
+
+            // // var marker = new google.maps.Marker({
+            // //     position: closestLatLong,
+            // //     map: this.map,
+            // //     title: closest.name
+            // // });
+
+            var directions = {
+                origin: this.app.location,
+                destination: placeLatLong,
+                travelMode: google.maps.TravelMode.DRIVING,
+                unitSystem: google.maps.UnitSystem.IMPERIAL
+            };
+
+            this.app.directionsService.route(directions, this.handleDirections);
+        };
+
+
+        Place.prototype.handleDirections = function(directions, status) {
+            var _this = this;
+            if (status !== google.maps.DirectionsStatus.OK) {
+                this.app.handleError(status);
+                return;
+            }
+
+            this.directions = directions;
+
+            this.route = new Route(this.directions.routes[0]);
+            this.route.render(this.routeContainer);
+
+            this.expand();
+        };
+
+        Place.prototype.attachHandlers = function(container) {
+            this.summaryContainer.on('click', this.summaryClick);
+        };
+
+        Place.prototype.summaryClick = function(e) {
+            this.$html.trigger('place.summary-click', this);
+        };
 
         return Place;
     })();
@@ -233,57 +285,45 @@
     this.Route = (function() {
 
         Route.prototype.defaults = {
-            baseHTML: "<li class='route'><div class='summary-container' style='display:none;'><h6 class='summary'></h6></div><div class='directions-container' style='display:none;'><ul class='directions'></ul></div></li>",
-            summaryContainerSelector: 'div.summary-container',
-            summarySelector: 'h6.summary',
-            directionsContainerSelector: 'div.directions-container',
+            baseHTML: "<div class='route'><ul class='directions' style='display:none;'></ul></div>",
             directionsSelector: 'ul.directions'
         };
 
-        function Route(options, index) {
+        function Route(options) {
             this.options = _.defaults(options, this.defaults);
 
-            this.html = $(this.options.baseHTML);
-            this.index = index + 1;
-
-            this.summaryContainer = this.html.find(this.options.summaryContainerSelector);
-            this.directionsContainer = this.html.find(this.options.directionsContainerSelector);
-            this.summary = this.summaryContainer.find(this.options.summarySelector);
-            this.directions = this.directionsContainer.find(this.options.directionsSelector);
+            this.$html = $(this.options.baseHTML);
+            this.directions = this.$html.find(this.options.directionsSelector);
 
             this.render = _.bind(this.render, this);
+            this.collapse = _.bind(this.collapse, this);
+            this.expand = _.bind(this.expand, this);
             this.formatDirections = _.bind(this.formatDirections, this);
             this.formatStep = _.bind(this.formatStep, this);
-            this.showSummary = _.bind(this.showSummary, this);
+            this.attachHandlers = _.bind(this.attachHandlers, this);
             this.summaryClick = _.bind(this.summaryClick, this);
         }
 
         Route.prototype.render = function(container) {
-            this.summary.append("<span class='route-number'>" + this.index + "</span>" + this.options.summary);
             this.directions.append(this.formatDirections());
 
-            container.append(this.html);
+            container.append(this.$html);
 
             this.attachHandlers(container);
-
-            this.showSummary();
         };
 
-        Route.prototype.showSummary = function(first) {
-            this.directionsContainer.slideUp();
-            this.summaryContainer.show();
+        Route.prototype.collapse = function(first) {
+            this.directions.slideUp();
         };
 
-        Route.prototype.attachHandlers = function(container) {
-            this.summaryContainer.on('click', this.summaryClick);
-        };
+        Route.prototype.attachHandlers = function(container) {};
 
         Route.prototype.summaryClick = function(e) {
-            this.html.trigger('route.summary-click', this);
+            this.$html.trigger('route.summary-click', this);
         };
 
-        Route.prototype.showDirections = function() {
-            this.directionsContainer.slideDown();
+        Route.prototype.expand = function() {
+            this.directions.slideDown();
         };
 
         Route.prototype.formatDirections = function() {
@@ -292,7 +332,7 @@
                 _this = this;
 
             formattedDirections = _.inject(directions.steps, function(memo, step) {
-                memo += _this.formatStep();
+                return memo + _this.formatStep(step);
             }, "");
 
             return formattedDirections;
@@ -317,8 +357,6 @@
             var information = "<p>" + distance + instruction + length + clear + "</p>";
             return "<li>" + information + "</li>" + extra;
         };
-
-
 
         return Route;
     })();
