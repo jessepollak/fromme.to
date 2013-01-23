@@ -1,0 +1,127 @@
+.chunkfive { font-family: "ChunkFive", Rockwell, serif; ;}
+
+.pt-sans { font-family: "PT Sans", "Arial", "Helvetica", "Lucida Grande", "Gill Sans", "Verdana", sans-serif; font-size: 1.000em;}
+
+.nobile { font-family: "Nobile", "Lucida Grande", "Verdana", "Arial", "Helvetica", "Gill Sans", sans-serif; font-size: 0.876em;}
+
+.ubuntu { font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif; font-size: 0.962em;}
+
+
+@font-face {
+font-family: 'ChunkFive';
+src: url('/fonts/Chunkfive-webfont.eot');
+src: local('☺'), url('/fonts/Chunkfive-webfont.woff') format('woff'), url('/fonts/Chunkfive-webfont.ttf') format('truetype'), url('/fonts/Chunkfive-webfont.svg#webfontX4pGz9fc') format('svg');
+font-weight: 400;
+font-style: normal;
+}
+
+
+
+@font-face {
+font-family: 'PT Sans';
+src: url('/fonts/PTS75F-webfont.eot');
+src: local('☺'), url('/fonts/PTS75F-webfont.woff') format('woff'), url('/fonts/PTS75F-webfont.ttf') format('truetype'), url('/fonts/PTS75F-webfont.svg#webfontX4pGz9fc') format('svg');
+font-weight: 700;
+font-style: normal;
+}
+
+
+@font-face {
+font-family: 'PT Sans';
+src: url('/fonts/PTS76F-webfont.eot');
+src: local('☺'), url('/fonts/PTS76F-webfont.woff') format('woff'), url('/fonts/PTS76F-webfont.ttf') format('truetype'), url('/fonts/PTS76F-webfont.svg#webfontX4pGz9fc') format('svg');
+font-weight: 700;
+font-style: italic;
+}
+
+
+@font-face {
+font-family: 'PT Sans';
+src: url('/fonts/PTS56F-webfont.eot');
+src: local('☺'), url('/fonts/PTS56F-webfont.woff') format('woff'), url('/fonts/PTS56F-webfont.ttf') format('truetype'), url('/fonts/PTS56F-webfont.svg#webfontX4pGz9fc') format('svg');
+font-weight: 400;
+font-style: italic;
+}
+
+
+@font-face {
+font-family: 'PT Sans';
+src: url('/fonts/PTS55F-webfont.eot');
+src: local('☺'), url('/fonts/PTS55F-webfont.woff') format('woff'), url('/fonts/PTS55F-webfont.ttf') format('truetype'), url('/fonts/PTS55F-webfont.svg#webfontX4pGz9fc') format('svg');
+font-weight: 400;
+font-style: normal;
+}
+
+
+
+@font-face {
+font-family: 'Nobile';
+src: url('/fonts/nobile_bold-webfont.eot');
+src: local('☺'), url('/fonts/nobile_bold-webfont.woff') format('woff'), url('/fonts/nobile_bold-webfont.ttf') format('truetype'), url('/fonts/nobile_bold-webfont.svg#webfontX4pGz9fc') format('svg');
+font-weight: 700;
+font-style: normal;
+}
+
+
+@font-face {
+font-family: 'Nobile';
+src: url('/fonts/nobile_bold_italic-webfont.eot');
+src: local('☺'), url('/fonts/nobile_bold_italic-webfont.woff') format('woff'), url('/fonts/nobile_bold_italic-webfont.ttf') format('truetype'), url('/fonts/nobile_bold_italic-webfont.svg#webfontX4pGz9fc') format('svg');
+font-weight: 700;
+font-style: italic;
+}
+
+
+@font-face {
+font-family: 'Nobile';
+src: url('/fonts/nobile_italic-webfont.eot');
+src: local('☺'), url('/fonts/nobile_italic-webfont.woff') format('woff'), url('/fonts/nobile_italic-webfont.ttf') format('truetype'), url('/fonts/nobile_italic-webfont.svg#webfontX4pGz9fc') format('svg');
+font-weight: 400;
+font-style: italic;
+}
+
+
+@font-face {
+font-family: 'Nobile';
+src: url('/fonts/nobile-webfont.eot');
+src: local('☺'), url('/fonts/nobile-webfont.woff') format('woff'), url('/fonts/nobile-webfont.ttf') format('truetype'), url('/fonts/nobile-webfont.svg#webfontX4pGz9fc') format('svg');
+font-weight: 400;
+font-style: normal;
+}
+
+
+
+@font-face {
+font-family: 'Ubuntu';
+src: url('/fonts/Ubuntu-B-webfont.eot');
+src: local('☺'), url('/fonts/Ubuntu-B-webfont.woff') format('woff'), url('/fonts/Ubuntu-B-webfont.ttf') format('truetype'), url('/fonts/Ubuntu-B-webfont.svg#webfontX4pGz9fc') format('svg');
+font-weight: 700;
+font-style: normal;
+}
+
+
+@font-face {
+font-family: 'Ubuntu';
+src: url('/fonts/Ubuntu-BI-webfont.eot');
+src: local('☺'), url('/fonts/Ubuntu-BI-webfont.woff') format('woff'), url('/fonts/Ubuntu-BI-webfont.ttf') format('truetype'), url('/fonts/Ubuntu-BI-webfont.svg#webfontX4pGz9fc') format('svg');
+font-weight: 700;
+font-style: italic;
+}
+
+
+@font-face {
+font-family: 'Ubuntu';
+src: url('/fonts/Ubuntu-I-webfont.eot');
+src: local('☺'), url('/fonts/Ubuntu-I-webfont.woff') format('woff'), url('/fonts/Ubuntu-I-webfont.ttf') format('truetype'), url('/fonts/Ubuntu-I-webfont.svg#webfontX4pGz9fc') format('svg');
+font-weight: 400;
+font-style: italic;
+}
+
+
+@font-face {
+font-family: 'Ubuntu';
+src: url('/fonts/Ubuntu-R-webfont.eot');
+src: local('☺'), url('/fonts/Ubuntu-R-webfont.woff') format('woff'), url('/fonts/Ubuntu-R-webfont.ttf') format('truetype'), url('/fonts/Ubuntu-R-webfont.svg#webfontX4pGz9fc') format('svg');
+font-weight: 400;
+font-style: normal;
+}

@@ -1,0 +1,129 @@
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 }
+#main, #container { width: 100%; height: 100%;}
+.clear { clear: both; display: block;}
+
+.routes-container {
+    float: left;
+    width: 40%;
+    height: 100%;
+    background: #DDD;
+}
+.map-container {
+    width: 60%;
+    height: 100%;
+    float:right;
+}
+#map_canvas { height: 100% }
+
+
+/******************
+Input formatting
+******************/
+
+div.input-container {
+    height: 80px;
+}
+
+div.input-container > * {
+    height: 100%
+}
+
+div.input-container input#input {
+    font-family: "ChunkFive", Rockwell, serif;
+    margin: 0;
+    padding-left: 40px;
+    color: white;
+    border: none;
+    outline-color: transparent;
+    font-size: 3em;
+    width: 80%;
+    float: left;
+    background: rgb(60, 60, 60);
+    border-radius: 0;
+}
+
+div.input-container div#submit {
+    width: 20%;
+    float: left;
+    background: white;
+    line-height: 80px;
+    font-size: 3em;
+    text-align: center;
+    cursor: pointer;
+}
+
+div.input-container div#submit:active {
+    background: black;
+    color: white;
+}
+
+/******************
+Route formatting
+******************/
+
+ul.routes {
+    width: 100%;
+    list-style: none;
+}
+
+li.route {
+    width: 100%;
+    margin: auto;
+}
+
+li.route h6.summary {
+    cursor: pointer;
+    margin: 0;
+    padding: 20px;
+    background: #AAA;
+}
+
+li.route h6.summary span.route-number {
+    width: 20%;
+    margin-right: 20px;
+    color: #EEE;
+    font-size: 1.7em;
+    position: relative;
+    top: 2px;
+}
+
+li.route .directions-container {
+    padding: 20px 0;
+    background: #EEE;
+    box-shadow: -2px rgba(0,0,0, .5);
+}
+/******************
+Step formatting
+*******************/
+
+ul.directions {
+    width: 90%;
+    margin: auto;
+    list-style: none;
+}
+
+ul.directions li {
+    width: 100%;
+}
+
+ul.directions li p span.instruction {
+    width: 70%;
+    float: left;
+}
+
+ul.directions li p span.distance {
+    width: 15%;
+    float: left;
+    color: #AAA;
+}
+
+ul.directions li p span.length {
+    float: right;
+    width: 15%;
+    color: #AAA;
+}
+
+ul.directions li div {
+    margin-left: 15%;
+}
