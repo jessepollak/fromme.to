@@ -84,16 +84,34 @@
         App.prototype.findPlaces = function(keyword, callback) {
 
             if (this.placesService === undefined) {
+                this.localSearch = new google.search.LocalSearch();
+                this.autoCompleteService = new google.maps.places.AutocompleteService();
                 this.placesService = new google.maps.places.PlacesService(this.map);
             }
 
-            var request = {
-                location: this.location,
-                keyword: keyword,
-                rankBy: google.maps.places.RankBy.DISTANCE
-            };
+            this.localSearch.setCenterPoint(this.location);
 
-            this.placesService.nearbySearch(request, callback);
+            this.localSearch.setSearchCompleteCallback(this, callback, null);
+
+            this.localSearch.execute(keyword.replace('+', ' '));
+
+            // this.autoCompleteService.getQueryPredictions(
+            //     {
+            //         input: keyword,
+            //         bounds: convertToLatLngBounds(this.location)
+            //     },
+            //     function(predictions, status) {
+            //         console.log(predictions);
+            //     }
+            // );
+
+            // var request = {
+            //     location: this.location,
+            //     query: keyword,
+            //     radius: 50000
+            // };
+
+            // this.placesService.textSearch(request, callback);
         };
 
         App.prototype.handlePlaces = function(places, status) {
@@ -178,6 +196,19 @@
             console.log(error);
             console.log('Y U GIVE ME BAD ERROR!?');
         };
+
+        function convertToLatLngBounds(latlng) {
+            var LAT_DIFF = .01;
+            var LNG_DIFF = .02;
+
+            var bounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(latlng.lat() - LAT_DIFF, latlng.lng() - LNG_DIFF),
+                new google.maps.LatLng(latlng.lat() + LAT_DIFF, latlng.lng() + LNG_DIFF)
+            );
+
+            console.log(bounds);
+            return bounds;
+        }
 
         return App;
     })();
