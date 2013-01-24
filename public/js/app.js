@@ -94,43 +94,25 @@
             this.localSearch.setSearchCompleteCallback(this, callback, null);
 
             this.localSearch.execute(keyword.replace('+', ' '));
-
-            // this.autoCompleteService.getQueryPredictions(
-            //     {
-            //         input: keyword,
-            //         bounds: convertToLatLngBounds(this.location)
-            //     },
-            //     function(predictions, status) {
-            //         console.log(predictions);
-            //     }
-            // );
-
-            // var request = {
-            //     location: this.location,
-            //     query: keyword,
-            //     radius: 50000
-            // };
-
-            // this.placesService.textSearch(request, callback);
         };
 
-        App.prototype.handlePlaces = function(places, status) {
+        App.prototype.handlePlaces = function() {
             var _this = this;
 
-            if (status !== google.maps.places.PlacesServiceStatus.OK) {
-                this.handleError(status);
-                return;
+            if (this.localSearch.results && this.localSearch.results.length > 0) {
+                var places = this.localSearch.results;
+                _.each(places.slice(0, 5), function(p, i) {
+                    var place = new Place(p, i, _this);
+                    _this.places.push(place);
+                    place.render(_this.placesContainer);
+                    _this.attachPlaceHandlers(place);
+                });
+
+                this.currentPlace = this.places[0];
+                this.currentPlace.expand();
+            } else {
+                this.handleError('no places');
             }
-
-            _.each(places.slice(0, 5), function(p, i) {
-                var place = new Place(p, i, _this);
-                _this.places.push(place);
-                place.render(_this.placesContainer);
-                _this.attachPlaceHandlers(place);
-            });
-
-            this.currentPlace = this.places[0];
-            this.currentPlace.expand();
         };
 
         App.prototype.attachPlaceHandlers = function(place) {
@@ -197,19 +179,6 @@
             console.log('Y U GIVE ME BAD ERROR!?');
         };
 
-        function convertToLatLngBounds(latlng) {
-            var LAT_DIFF = .01;
-            var LNG_DIFF = .02;
-
-            var bounds = new google.maps.LatLngBounds(
-                new google.maps.LatLng(latlng.lat() - LAT_DIFF, latlng.lng() - LNG_DIFF),
-                new google.maps.LatLng(latlng.lat() + LAT_DIFF, latlng.lng() + LNG_DIFF)
-            );
-
-            console.log(bounds);
-            return bounds;
-        }
-
         return App;
     })();
 
@@ -245,7 +214,7 @@
         }
 
         Place.prototype.render = function(container) {
-            this.summary.append("<span class='place-number'>" + this.index + "</span>" + this.options.name);
+            this.summary.append("<span class='place-number'>" + this.index + "</span>" + this.options.title);
 
             container.append(this.$html);
 
@@ -268,7 +237,7 @@
         };
 
         Place.prototype.generateRoute = function() {
-            var placeLatLong = new google.maps.LatLng(this.options.geometry.location.Ya, this.options.geometry.location.Za);
+            var placeLatLong = new google.maps.LatLng(this.options.lat, this.options.lng);
 
             // // var marker = new google.maps.Marker({
             // //     position: closestLatLong,
