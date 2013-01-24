@@ -74,11 +74,16 @@
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
 
+            this.options.mapSpinner.stop();
             this.map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
             this.directionsDisplay.setMap(this.map);
 
-            var places = this.findPlaces(this.destination, this.handlePlaces);
+            if (this.destination && this.destination !== "") {
+                var places = this.findPlaces(this.destination, this.handlePlaces);
+            } else {
+                this.showInput();
+            }
         };
 
         App.prototype.findPlaces = function(keyword, callback) {
@@ -98,6 +103,8 @@
 
         App.prototype.handlePlaces = function() {
             var _this = this;
+
+            this.options.placesSpinner.stop();
 
             if (this.localSearch.results && this.localSearch.results.length > 0) {
                 var places = this.localSearch.results;
@@ -156,6 +163,8 @@
                 this.changePlace(undefined, this.currentPlace);
                 return;
             }
+
+            if (!this.input.is(':focus')) this.input.focus();
         };
 
         App.prototype.hideInput = function(){

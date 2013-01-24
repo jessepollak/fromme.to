@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-        <title>fromme.to/anything</title>
+        <title>How do I get to <%= @destination %>?</title>
         <meta name="description" content="The easiest way to get from here to there.">
         <meta name="author" content="Jesse Pollak">
 
@@ -43,9 +43,8 @@
                     <div class='clear'></div>
                 </div>
                 <div id='places-spin' class='places-container'>
-                    <div class='info'>
-                        <h1>What is fromme.to?</h1>
-                    </div>
+                    <ul class='places'>
+                    </ul>
                 </div>
                 <div id='map-spin' class='map-container'>
                     <div id="map_canvas" style="width:100%; height:100%"></div>
@@ -76,13 +75,21 @@
                 top: 'auto', // Top position relative to parent in px
                 left: 'auto' // Left position relative to parent in px
             };
+            var places = document.getElementById('places-spin');
             var map = document.getElementById('map-spin');
+            var placesSpinner = new Spinner(opts).spin(places);
             var mapSpinner = new Spinner(opts).spin(map);
 
-            var app = new App({
-                destination: destination,
-                mapSpinner: mapSpinner
-            });
+
+            google.load('search', '1');
+
+            google.setOnLoadCallback(function() {
+                var app = new App({
+                    destination: destination,
+                    placesSpinner: placesSpinner,
+                    mapSpinner: mapSpinner
+                });
+            })
         </script>
     </body>
 </html>

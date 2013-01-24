@@ -1,10 +1,10 @@
 require 'sinatra'
 
 get '/' do
-    "hello world"
+    erb :index
 end
 
 get '/:destination' do |destination|
     @destination = destination
-    erb :index, layout: :layout
+    erb :search
 end
