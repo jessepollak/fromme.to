@@ -72,24 +72,26 @@ div.input-container > * {
 div.input-container input#input {
     margin: 0;
     padding-left: 40px;
-    color: white;
+    color: black;
     border: none;
     outline-color: transparent;
     font-size: 3em;
     width: 80%;
     float: left;
-    background: rgb(60, 60, 60);
+    background: white;
     border-radius: 0;
+    font-weight: bold;
 }
 
 div.input-container div#submit {
     width: 20%;
     float: left;
-    background: white;
+    background: black;
     line-height: 80px;
     font-size: 3em;
     text-align: center;
     cursor: pointer;
+    color: white;
 }
 
 div.input-container div#submit:active {
@@ -115,7 +117,8 @@ li.place h6.summary {
     cursor: pointer;
     margin: 0;
     padding: 20px;
-    background: #AAA;
+    color: white;
+    font-size: 1.4em;
 }
 
 li.place h6.summary span.place-number {

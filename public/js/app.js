@@ -88,13 +88,12 @@
 
         App.prototype.findPlaces = function(keyword, callback) {
 
-            if (this.placesService === undefined) {
+            if (this.localSearch === undefined) {
                 this.localSearch = new google.search.LocalSearch();
-                this.autoCompleteService = new google.maps.places.AutocompleteService();
-                this.placesService = new google.maps.places.PlacesService(this.map);
             }
-
+            console.log(keyword);
             this.localSearch.setCenterPoint(this.location);
+            this.localSearch.setResultSetSize(5);
 
             this.localSearch.setSearchCompleteCallback(this, callback, null);
 
@@ -197,7 +196,15 @@
             baseHTML: "<li class='place'><div class='summary-container' style='display:none;'><h6 class='summary'></h6></div><div class='route-container'></div></li>",
             summaryContainerSelector: 'div.summary-container',
             summarySelector: 'h6.summary',
-            routeContainerSelector: 'div.route-container'
+            routeContainerSelector: 'div.route-container',
+            colors: [
+                'rgb(38,174,144)',
+                'rgb(29, 36, 48)',
+                'rgb(213, 51, 37)',
+                'rgb(33, 93, 229)',
+                'rgb(230, 0, 120)',
+                'rgb(46, 172, 243)'
+            ]
         };
 
         function Place(placeInformation, index, app) {
@@ -224,6 +231,8 @@
 
         Place.prototype.render = function(container) {
             this.summary.append("<span class='place-number'>" + this.index + "</span>" + this.options.title);
+
+            this.summary.css('background', this.options.colors[this.index - 1]);
 
             container.append(this.$html);
 
