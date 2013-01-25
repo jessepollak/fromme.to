@@ -139,14 +139,15 @@
 
         App.prototype.handleTyping = function(e) {
             var _this = this;
+            var code = e.keyCode || e.which;
             // Enter submits the form
-            if(e.keyCode === this.options.enterKeyCode && this.inputShown) {
+            if(code === this.options.enterKeyCode && this.inputShown) {
                 this.submitInput();
                 return;
             }
 
             // ESC closes the input
-            if (e.keyCode == this.options.escKeyCode && this.inputShown) {
+            if (code == this.options.escKeyCode && this.inputShown) {
                 this.hideInput();
 
                 // show the first route
@@ -155,7 +156,7 @@
             }
 
             // Any typing opens up the form
-            if (!this.inputShown && e.keyCode != this.options.escKeyCode) {
+            if ((code >= 48 && code <= 57) || (code >= 65 && code <= 90)) {
                 this.showInput();
 
                 // hide the current shown route
@@ -193,9 +194,10 @@
     this.Place = (function() {
 
         Place.prototype.defaults = {
-            baseHTML: "<li class='place'><div class='summary-container' style='display:none;'><h6 class='summary'></h6></div><div class='route-container'></div></li>",
+            baseHTML: "<li class='place'><div class='summary-container' style='display:none;'><div class='place-number'></div><div class='place-info'><h6 class='summary'></h6><p class='location'></p></div><div class='clear'></div></div><div class='route-container'></div></li>",
             summaryContainerSelector: 'div.summary-container',
-            summarySelector: 'h6.summary',
+            summarySelector: 'div.place-info h6.summary',
+            indexSelector: 'div.place-number',
             routeContainerSelector: 'div.route-container',
             colors: [
                 'rgb(38,174,144)',
@@ -230,9 +232,11 @@
         }
 
         Place.prototype.render = function(container) {
-            this.summary.append("<span class='place-number'>" + this.index + "</span>" + this.options.title);
-
-            this.summary.css('background', this.options.colors[this.index - 1]);
+            console.log(this);
+            this.summaryContainer.find(this.options.indexSelector).append(this.index);
+            this.summary.append(this.options.title);
+            this.summaryContainer.find('p.location').append(this.options.addressLines[0] + ' ' + this.options.addressLines[1]);
+            this.summaryContainer.css('background', this.options.colors[this.index - 1]);
 
             container.append(this.$html);
 

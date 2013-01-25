@@ -8,6 +8,7 @@ body { height: 100%; margin: 0; padding: 0 }
     width: 40%;
     height: 100%;
     background: #DDD;
+    overflow: scroll;
 }
 .map-container {
     width: 60%;
@@ -74,13 +75,17 @@ div.input-container input#input {
     padding-left: 40px;
     color: black;
     border: none;
-    outline-color: transparent;
+    outline: none;
     font-size: 3em;
     width: 80%;
     float: left;
     background: white;
     border-radius: 0;
     font-weight: bold;
+}
+
+div.input-container input#input:focus {
+    outline: none;
 }
 
 div.input-container div#submit {
@@ -106,6 +111,7 @@ Place formatting
 ul.places {
     width: 100%;
     list-style: none;
+    margin-bottom: 0;
 }
 
 li.place {
@@ -113,21 +119,34 @@ li.place {
     margin: auto;
 }
 
+li.place div.summary-container {
+    padding: 20px;
+}
+
+li.place div.summary-container div.place-number {
+    width: 10%;
+    color: #EEE;
+    font-size: 1.7em;
+    font-weight: bold;
+    float: left;
+}
+
+li.place .place-info {
+    float:right;
+    width: 90%;
+}
 li.place h6.summary {
     cursor: pointer;
     margin: 0;
-    padding: 20px;
     color: white;
     font-size: 1.4em;
 }
 
-li.place h6.summary span.place-number {
-    width: 20%;
-    margin-right: 20px;
-    color: #EEE;
-    font-size: 1.7em;
-    position: relative;
-    top: 2px;
+
+li.place p.location {
+    margin: 0;
+    color: rgb(230, 230, 230);
+    margin-top: 5px;
 }
 
 li.place .route-container {
