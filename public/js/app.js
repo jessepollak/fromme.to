@@ -6,6 +6,7 @@
             inputContainerSelector: 'div.input-container',
             inputSelector: 'div.input-container input#input',
             submitSelector: 'div.input-container div#submit',
+            helpSelector: 'div.help-callout h6',
             escKeyCode: 27,
             enterKeyCode: 13
         };
@@ -22,6 +23,7 @@
             this.inputContainer = $(this.options.inputContainerSelector);
             this.input = $(this.options.inputSelector);
             this.submit = $(this.options.submitSelector);
+            this.help = $(this.options.helpSelector);
 
             this.inputShown = false;
 
@@ -171,12 +173,14 @@
             this.inputShown = false;
             this.inputContainer.slideUp();
             this.input.val('');
+            this.help.html('start typing');
         };
 
         App.prototype.showInput = function() {
             this.inputShown = true;
             this.inputContainer.show();
             this.input.focus();
+            this.help.html('hit esc');
         };
 
         App.prototype.submitInput = function() {
@@ -194,10 +198,10 @@
     this.Place = (function() {
 
         Place.prototype.defaults = {
-            baseHTML: "<li class='place'><div class='summary-container' style='display:none;'><div class='place-number'></div><div class='place-info'><h6 class='summary'></h6><p class='location'></p></div><div class='clear'></div></div><div class='route-container'></div></li>",
+            baseHTML: "<li class='place'><div class='summary-container' style='display:none;'><h6 class='place-number'></h6><div class='place-info'><h6 class='summary'></h6><p class='location'></p></div><div class='clear'></div></div><div class='route-container'></div></li>",
             summaryContainerSelector: 'div.summary-container',
             summarySelector: 'div.place-info h6.summary',
-            indexSelector: 'div.place-number',
+            indexSelector: 'h6.place-number',
             routeContainerSelector: 'div.route-container',
             colors: [
                 'rgb(38,174,144)',

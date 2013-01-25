@@ -104,6 +104,22 @@ div.input-container div#submit:active {
     color: white;
 }
 
+div.help-callout {
+    width: 100px;
+    position: absolute;
+    z-index: 100;
+    background: white;
+    text-align: center;
+    padding: 10px;
+    bottom: 0;
+    left: 40%;
+    cursor: pointer;
+}
+
+div.help-callout h6 {
+    margin: 0;
+}
+
 /******************
 Place formatting
 ******************/
@@ -123,7 +139,7 @@ li.place div.summary-container {
     padding: 20px;
 }
 
-li.place div.summary-container div.place-number {
+li.place div.summary-container h6.place-number {
     width: 10%;
     color: #EEE;
     font-size: 1.7em;
@@ -205,7 +221,7 @@ ul.directions li {
 }
 
 ul.directions li p span.instruction {
-    width: 70%;
+    width: 68%;
     float: left;
 }
 
