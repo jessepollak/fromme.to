@@ -24,6 +24,39 @@ Info formatting
     padding: 50px;
 }
 
+.info section {
+    margin-bottom: 50px;
+}
+
+.info section h1 {
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.info section p {
+    font-size: 1.3em;
+}
+
+.info section ul {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.info section ul li {
+    position: relative;
+    left: 40px;
+}
+
+.info section ul li a {
+    color: gray;
+    font-size: 1.6em;
+    font-weight: bold;
+}
+
+.info section ul li a:hover {
+    color: black;
+}
+
 /******************
 Input formatting
 ******************/
@@ -37,7 +70,6 @@ div.input-container > * {
 }
 
 div.input-container input#input {
-    font-family: "ChunkFive", Rockwell, serif;
     margin: 0;
     padding-left: 40px;
     color: white;
