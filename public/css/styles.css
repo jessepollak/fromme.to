@@ -30,6 +30,25 @@ body { height: 100%; margin: 0; padding: 0 }
 #map_canvas { height: 100% }
 
 /******************
+Error formatting
+******************/
+
+.error-container {
+    padding: 10px;
+    background: red;
+    display: block;
+    color: white;
+}
+
+.error-container h3 {
+    color: white;
+    margin-bottom: 10px;
+}
+.error-container #error {
+    color: white;
+}
+
+/******************
 Info formatting
 ******************/
 
@@ -117,7 +136,7 @@ div.input-container div#submit:active {
 }
 
 div.help-callout {
-    width: 100px;
+    width: 150px;
     position: absolute;
     z-index: 100;
     background: white;

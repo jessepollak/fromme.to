@@ -8,6 +8,8 @@
             inputSelector: 'div.input-container input#input',
             submitSelector: 'div.input-container div#submit',
             helpSelector: 'div.help-callout h6',
+            errorContainerSelector: 'div.error-container',
+            errorSelector: 'div.error-container #error',
             escKeyCode: 27,
             enterKeyCode: 13
         };
@@ -25,6 +27,8 @@
             this.input = $(this.options.inputSelector);
             this.submit = $(this.options.submitSelector);
             this.help = $(this.options.helpSelector);
+            this.errorContainer = $(this.options.errorContainerSelector);
+            this.error = $(this.options.errorSelector);
 
             this.inputShown = false;
 
@@ -218,8 +222,22 @@
         };
 
         App.prototype.handleError = function(error) {
+            var message;
             console.log(error);
-            console.log('Y U GIVE ME BAD ERROR!?');
+            if (error.PERMISSION_DENIED !== undefined) {
+                if (error.code === error.PERMISSION_DENIED)
+                    message = "Please allow the browser to use your position.";
+                else if (error.code === error.POSITION_UNAVAILABLE)
+                    message = "Your position is currently unavailable. Try turning on WiFi or location services.";
+                else if (error.code === error.TIMEOUT)
+                    message = "The browser timed out in finding your position.";
+            }
+            else if (error === google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT)
+                message = "fromme.to has reached it's Google Maps API limit. Try again in a little while";
+
+            this.error.html(message);
+            this.help.html('type to try again');
+            this.errorContainer.slideDown();
         };
 
 
