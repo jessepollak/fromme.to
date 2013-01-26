@@ -106,7 +106,7 @@
 
             this.localSearch.setSearchCompleteCallback(this, callback, null);
 
-            this.localSearch.execute(keyword.replace('+', ' '));
+            this.localSearch.execute(decodeURIComponent(keyword));
         };
 
         App.prototype.handlePlaces = function() {
@@ -218,7 +218,7 @@
         };
 
         App.prototype.submitInput = function() {
-            window.location = '/' + this.input.val().replace(/ /g, '+');
+            window.location = '/' + encodeURIComponent(this.input.val());
         };
 
         App.prototype.handleError = function(error) {
@@ -488,7 +488,7 @@
         Suggestion.prototype.attachHandlers = function() {
             var _this = this;
             this.summaryContainer.click(function() {
-                window.location = '/' + _this.options.description.replace(' ', '+');
+                window.location = '/' + encodeURIComponent(_this.options.description);
             });
         };
 
