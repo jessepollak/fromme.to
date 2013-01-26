@@ -10,6 +10,18 @@ body { height: 100%; margin: 0; padding: 0 }
     background: #DDD;
     overflow: scroll;
 }
+
+.places-container .no-results {
+    margin-left: 20px;
+}
+
+.places-container h4.no-results {
+    font-size: 2em;
+}
+
+.places-container h6.no-results {
+    margin-top: -5px;
+}
 .map-container {
     width: 60%;
     height: 100%;
@@ -137,6 +149,11 @@ li.place {
 
 li.place div.summary-container {
     padding: 20px;
+    cursor: pointer;
+}
+
+li.place div.summary-container:hover {
+    opacity: .9;
 }
 
 li.place div.summary-container h6.place-number {
@@ -153,23 +170,38 @@ li.place .place-info {
 }
 li.place h6.summary {
     cursor: pointer;
-    margin: 0;
     color: white;
-    font-size: 1.4em;
+    font-size: 1.7em;
+    margin-bottom: 5px;
 }
 
 
 li.place p.location {
     margin: 0;
     color: rgb(230, 230, 230);
-    margin-top: 5px;
 }
 
 li.place .route-container {
     background: #EEE;
     box-shadow: -2px rgba(0,0,0, .5);
 }
+/******************
+Suggestions formatting
+******************/
 
+li.place.suggestion h6.summary {
+    font-size: 1em;
+    margin: 14px;
+}
+
+li.place.suggestion div.summary-container h6.place-number {
+    font-size: 1em;
+}
+
+li.place.suggestion div.summary-container {
+    padding: 0;
+    padding-left: 20px;
+}
 /******************
 Route formatting
 ******************/
