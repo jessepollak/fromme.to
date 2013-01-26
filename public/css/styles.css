@@ -11,6 +11,12 @@ body { height: 100%; margin: 0; padding: 0 }
     overflow: scroll;
 }
 
+.mobile-container {
+    height: 100%;
+    background: #DDD;
+    overflow: scroll;
+}
+
 .places-container .no-results {
     margin-left: 20px;
 }
@@ -90,6 +96,26 @@ Info formatting
 }
 
 /******************
+Help formatting
+******************/
+
+div.help-callout {
+    width: 150px;
+    position: absolute;
+    z-index: 100;
+    background: white;
+    text-align: center;
+    padding: 10px;
+    bottom: 0;
+    left: 40%;
+    cursor: pointer;
+}
+
+div.help-callout h6 {
+    margin: 0;
+}
+
+/******************
 Input formatting
 ******************/
 
@@ -135,21 +161,6 @@ div.input-container div#submit:active {
     color: white;
 }
 
-div.help-callout {
-    width: 150px;
-    position: absolute;
-    z-index: 100;
-    background: white;
-    text-align: center;
-    padding: 10px;
-    bottom: 0;
-    left: 40%;
-    cursor: pointer;
-}
-
-div.help-callout h6 {
-    margin: 0;
-}
 
 /******************
 Place formatting
@@ -290,4 +301,92 @@ ul.directions li p span.length {
 
 ul.directions li div {
     margin-left: 15%;
+}
+
+/***********************
+Mobile formatting
+***********************/
+
+@media all and (min-width: 320px) and (max-width: 780px) {
+    .places-container {
+        float: none;
+        width: 100%;
+        height: auto;
+    }
+
+    .map-container {
+        width: 100%;
+        float: none;
+    }
+
+    .mobile-container {
+        width: 100%;
+        float: none;
+        height: auto;
+        background: white;
+    }
+
+    div.help-callout {
+        display: none;
+    }
+
+    ul.places {
+        width: 100%;
+        list-style: none;
+        margin-bottom: 0;
+    }
+
+    li.place {
+        width: 20%;
+        float: left;
+        margin: 0;
+    }
+
+    li.place div.summary-container {
+        padding: 0;
+        height: 100%;
+    }
+
+    li.place div.summary-container:hover {
+        opacity: .9;
+    }
+
+    li.place div.summary-container h6.place-number {
+        display: none;
+    }
+
+    li.place .place-info {
+        width: 100%;
+        padding: 5px;
+    }
+
+    li.place h6.summary {
+        font-size: .8em;
+        margin: 0;
+        width: 100%;
+    }
+
+
+    li.place p.location {
+        display: none;
+    }
+
+    li.place.suggestion {
+        list-style: none;
+        height: 100%;
+    }
+    li.place.suggestion h6.summary {
+        font-size: .7em;
+        margin: 0;
+    }
+
+    li.place.suggestion div.summary-container h6.place-number {
+        font-size: .7em;
+    }
+
+    li.place.suggestion div.summary-container {
+        padding: 0;
+    }
+
+
 }

@@ -233,8 +233,9 @@
                     message = "The browser timed out in finding your position.";
             }
             else if (error === google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT)
-                message = "fromme.to has reached it's Google Maps API limit. Try again in a little while";
-
+                message = "fromme.to has reached it's Google Maps API limit. Try again in a little while.";
+            else if (error === google.maps.places.PlacesServiceStatus.ZERO_RESULTS)
+                message = "No results were found.";
             this.error.html(message);
             this.help.html('type to try again');
             this.errorContainer.slideDown();
@@ -297,7 +298,6 @@
         }
 
         Place.prototype.render = function(container) {
-            console.log(this);
             this.summaryContainer.find(this.options.indexSelector).append(this.index);
             this.summary.append(this.options.title);
             this.summaryContainer.find('p.location').append(this.options.addressLines[0] + ' ' + this.options.addressLines[1]);
@@ -373,7 +373,8 @@
 
         Route.prototype.defaults = {
             baseHTML: "<div class='route'><ul class='directions' style='display:none;'></ul></div>",
-            directionsSelector: 'ul.directions'
+            directionsSelector: 'ul.directions',
+            mobileContainerSelector: 'div.mobile-container',
         };
 
         function Route(options) {
@@ -381,6 +382,7 @@
 
             this.$html = $(this.options.baseHTML);
             this.directions = this.$html.find(this.options.directionsSelector);
+            this.mobileContainer = $(this.options.mobileContainerSelector);
 
             this.render = _.bind(this.render, this);
             this.collapse = _.bind(this.collapse, this);
@@ -394,7 +396,11 @@
         Route.prototype.render = function(container) {
             this.directions.append(this.formatDirections());
 
-            container.append(this.$html);
+            if ($(window).width() < 780) {
+                this.mobileContainer.append(this.$html);
+            } else {
+                container.append(this.$html);
+            }
 
             this.attachHandlers(container);
         };
@@ -455,6 +461,7 @@
 
         function Suggestion(options, index) {
             this.options = _.defaults(options, this.defaults);
+            this.options.mobileContainerSelector = 'div.mobile-container';
             this.index = index + 1;
             this.expanded = false;
 
@@ -463,6 +470,7 @@
             this.summaryContainer = this.$html.find(this.options.summaryContainerSelector);
             this.summary = this.summaryContainer.find(this.options.summarySelector);
             this.routeContainer = this.$html.find(this.options.routeContainerSelector);
+            this.mobileContainer = $(this.options.mobileContainerSelector);
 
             this.render = _.bind(this.render, this);
             this.collapse = _.bind(this.collapse, this);
@@ -478,7 +486,11 @@
             this.summary.append(this.options.description);
             this.summaryContainer.css('background', this.options.colors[this.index - 1]);
 
-            container.append(this.$html);
+            if ($(window).width() < 780) {
+                this.mobileContainer.append(this.$html);
+            } else {
+                container.append(this.$html);
+            }
 
             this.attachHandlers(container);
 
